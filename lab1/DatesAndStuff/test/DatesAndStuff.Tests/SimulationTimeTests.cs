@@ -44,7 +44,14 @@ namespace DatesAndStuff.Tests
         // min
         public void TwoSimulationTimes_Compared_ComparisonWorksCorrectly()
         {
-            throw new NotImplementedException();
+            DateTime baseDate = new DateTime(2010, 8, 23, 9, 4, 49);
+            SimulationTime sut1 = new SimulationTime(baseDate);
+            SimulationTime sut2 = new SimulationTime(baseDate);
+
+            bool result = sut1 == sut2;
+
+            Assert.IsTrue(result);
+
         }
 
         private class TimeSpanArithmeticTests
