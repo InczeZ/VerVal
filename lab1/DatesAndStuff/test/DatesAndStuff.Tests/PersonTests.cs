@@ -55,28 +55,66 @@ public class PersonTests
 
     public class SalaryTests
     {
-        [Test]
-        public void IncreaseSalary_PositiveIncrease_ShouldIncrease()
+        Person sut;
+
+        [SetUp]
+        public void Setup()
         {
-            throw new NotImplementedException();
+            this.sut = new Person("Test Pista", 54);
         }
 
         [Test]
-        public void IncreaseSalary_ZeroPercentIncrease_ShouldNotChange()
+        public void Salary_PositiveIncrease_ShouldIncrease() // fix 1. exercise
         {
-            throw new NotImplementedException();
+            // Arrange
+            double salary = sut.Salary;
+
+            // Act
+            this.sut.IncreaseSalary(10);
+
+            // Assert
+            Assert.That(salary, Is.LessThan(this.sut.Salary));
+
         }
 
         [Test]
-        public void IncreaseSalary_NegativeIncrease_ShouldDecrease()
+        public void Salary_ZeroPercentIncrease_ShouldNotChange()
         {
-            throw new NotImplementedException();
+            // Arrange
+            double salary = sut.Salary;
+
+            // Act
+            this.sut.IncreaseSalary(0);
+
+            // Assert
+            Assert.IsTrue(salary == this.sut.Salary);
         }
 
         [Test]
-        public void IncreaseSalary_SmallerThanMinusTenPerc_ShouldFail()
+        public void Salary_NegativeIncrease_ShouldDecrease()
         {
-            throw new NotImplementedException();
+            // Arrange
+            double salary = sut.Salary;
+
+            // Act
+            this.sut.IncreaseSalary(-1);
+
+            // Assert
+            Assert.That(salary, Is.GreaterThan(this.sut.Salary));
+        }
+
+        [Test]
+        public void Salary_SmallerThanMinusTenPerc_ShouldFail()
+        {
+            // Arrange
+            double salary = sut.Salary;
+
+            // Act
+            var task = Task.Run(() => sut.IncreaseSalary(-10.1));
+            try { task.Wait(); } catch { }
+
+            // Assert
+            Assert.IsTrue(task.IsFaulted);
         }
     }
 }

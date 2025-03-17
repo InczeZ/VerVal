@@ -2,16 +2,20 @@ namespace DatesAndStuff.Tests
 {
     public sealed class SimulationTimeTests
     {
-        [OneTimeSetUp]
-        public void OneTimeSetupStuff()
-        {
-            // 
-        }
+        DateTime baseDate;
+        SimulationTime sut;
 
         [SetUp]
         public void Setup()
         {
-            // minden teszt felteheti, hogz elotte lefutott ez
+            this.baseDate = new DateTime(2010, 8, 23, 9, 4, 49);
+            this.sut = new SimulationTime(baseDate);
+        }
+
+        [OneTimeSetUp]
+        public void OneTimeSetupStuff()
+        {
+            // 
         }
 
         [TearDown]
@@ -44,12 +48,13 @@ namespace DatesAndStuff.Tests
         // min
         public void TwoSimulationTimes_Compared_ComparisonWorksCorrectly()
         {
-            DateTime baseDate = new DateTime(2010, 8, 23, 9, 4, 49);
-            SimulationTime sut1 = new SimulationTime(baseDate);
-            SimulationTime sut2 = new SimulationTime(baseDate);
+            // Arrange
+            SimulationTime simulationTime = new SimulationTime(this.baseDate);
 
-            bool result = sut1 == sut2;
+            // Act
+            bool result = this.sut == simulationTime;
 
+            // Assert
             Assert.IsTrue(result);
 
         }
@@ -94,12 +99,30 @@ namespace DatesAndStuff.Tests
 
         public class DifferenceTests
         {
+            private SimulationTime sut;
+            private DateTime baseDate;
+
+            [SetUp]
+            public void Setup()
+            {
+                this.baseDate = new DateTime(2010, 8, 23, 9, 4, 49);
+                this.sut = new SimulationTime(baseDate);
+            }
 
             [Test]
             // simulation difference timespane and datetimetimespan is the same
             public void TwoSimulationTimes_Subtracted_ResultMatchesDateTimeDifference()
             {
-                throw new NotImplementedException();
+                // Arrange
+                DateTime baseDate = new DateTime(2023, 10, 1, 12, 5, 0);
+                SimulationTime simulationTime = new SimulationTime(baseDate);
+
+                // Act
+                TimeSpan simulationTimeDifference = simulationTime - this.sut;
+                TimeSpan dateTimeDifference = baseDate - this.baseDate;
+
+                // Assert
+                Assert.That(dateTimeDifference, Is.EqualTo(simulationTimeDifference));
             }
         }
 
@@ -125,26 +148,62 @@ namespace DatesAndStuff.Tests
 
         public class EqualityTests
         {
+            private SimulationTime sut;
+            private DateTime baseDate;
+
+            [SetUp]
+            public void Setup()
+            {
+                this.baseDate = new DateTime(2010, 8, 23, 9, 4, 49);
+                this.sut = new SimulationTime(baseDate);
+            }
 
             [Test]
             // creat a SimulationTime from a DateTime, add the same milliseconds to both and check if they are still equal
             public void SimulationTimeAndDateTime_AfterAddingMilliseconds_RemainEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                DateTime dateTime = this.baseDate.AddMilliseconds(1);
+                SimulationTime simulationTime = new SimulationTime(dateTime);
+
+                // Act
+                bool result = this.sut.AddMilliseconds(1) == simulationTime;
+
+                // Assert
+                Assert.IsTrue(result);
+
             }
 
             [Test]
             // the same as before just with seconds
             public void SimulationTimeAndDateTime_AfterAddingSeconds_RemainEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                DateTime dateTime = this.baseDate.AddSeconds(1);
+                SimulationTime simulationTime = new SimulationTime(dateTime);
+
+                // Act
+                bool result = this.sut.AddSeconds(1) == simulationTime;
+
+                // Assert
+                Assert.IsTrue(result);
             }
 
             [Test]
             // same as before just with timespan
             public void SimulationTimeAndDateTime_AfterAddingTimeSpan_RemainEqual()
             {
-                throw new NotImplementedException();
+                // Arrange
+                SimulationTime simulationTime = new SimulationTime(baseDate);
+                TimeSpan timeSpan = TimeSpan.FromSeconds(420);
+
+                // Act
+                this.sut.AddTimeSpan(timeSpan);
+                simulationTime.AddTimeSpan(timeSpan);
+                bool result = this.sut == simulationTime;
+
+                // Assert
+                Assert.That(result, Is.True);
             }
         }
 
