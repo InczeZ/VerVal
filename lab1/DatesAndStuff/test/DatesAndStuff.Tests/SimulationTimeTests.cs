@@ -85,55 +85,70 @@ namespace DatesAndStuff.Tests
         }
 
 
-        [Test]
-        // simulation difference timespane and datetimetimespan is the same
-        public void TwoSimulationTimes_Subtracted_ResultMatchesDateTimeDifference()
+        public class DifferenceTests
         {
-            throw new NotImplementedException();
+
+            [Test]
+            // simulation difference timespane and datetimetimespan is the same
+            public void TwoSimulationTimes_Subtracted_ResultMatchesDateTimeDifference()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        [Test]
-        // millisecond representation works
-        public void SimulationTime_NextMillisec_IncrementsByOneMillisecond()
+        public class PrecisionTests
         {
-            //var t1 = SimulationTime.MinValue.AddMilliseconds(10);
-            throw new NotImplementedException();
+
+            [Test]
+            // millisecond representation works
+            public void SimulationTime_NextMillisec_IncrementsByOneMillisecond()
+            {
+                //var t1 = SimulationTime.MinValue.AddMilliseconds(10);
+                throw new NotImplementedException();
+            }
+
+            [Test]
+            // next millisec calculation works
+            public void NextMillisec_ShouldCompareCorrectly_ThenIncrementByOneMillisecond()
+            {
+                //Assert.AreEqual(t1.TotalMilliseconds + 1, t1.NextMillisec.TotalMilliseconds);
+                throw new NotImplementedException();
+            }
         }
 
-        [Test]
-        // next millisec calculation works
-        public void NextMillisec_ShouldCompareCorrectly_ThenIncrementByOneMillisecond()
+        public class EqualityTests
         {
-            //Assert.AreEqual(t1.TotalMilliseconds + 1, t1.NextMillisec.TotalMilliseconds);
-            throw new NotImplementedException();
+
+            [Test]
+            // creat a SimulationTime from a DateTime, add the same milliseconds to both and check if they are still equal
+            public void SimulationTimeAndDateTime_AfterAddingMilliseconds_RemainEqual()
+            {
+                throw new NotImplementedException();
+            }
+
+            [Test]
+            // the same as before just with seconds
+            public void SimulationTimeAndDateTime_AfterAddingSeconds_RemainEqual()
+            {
+                throw new NotImplementedException();
+            }
+
+            [Test]
+            // same as before just with timespan
+            public void SimulationTimeAndDateTime_AfterAddingTimeSpan_RemainEqual()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        [Test]
-        // creat a SimulationTime from a DateTime, add the same milliseconds to both and check if they are still equal
-        public void SimulationTimeAndDateTime_AfterAddingMilliseconds_RemainEqual()
+        public class StringRepresentationTests
         {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        // the same as before just with seconds
-        public void SimulationTimeAndDateTime_AfterAddingSeconds_RemainEqual()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        // same as before just with timespan
-        public void SimulationTimeAndDateTime_AfterAddingTimeSpan_RemainEqual()
-        {
-            throw new NotImplementedException();
-        }
-
-        [Test]
-        // check string representation given by ToString
-        public void SimulationTime_ToString_ReturnsCorrectStringRepresentation()
-        {
-            throw new NotImplementedException();
+            [Test]
+            // check string representation given by ToString
+            public void SimulationTime_ToString_ReturnsCorrectStringRepresentation()
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
