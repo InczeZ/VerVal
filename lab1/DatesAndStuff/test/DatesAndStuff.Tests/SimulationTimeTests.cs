@@ -1,3 +1,5 @@
+using FluentAssertions;
+
 namespace DatesAndStuff.Tests
 {
     public sealed class SimulationTimeTests
@@ -52,10 +54,10 @@ namespace DatesAndStuff.Tests
             SimulationTime simulationTime = new SimulationTime(this.baseDate);
 
             // Act
-            bool result = this.sut == simulationTime;
+            Boolean result = this.sut == simulationTime;
 
             // Assert
-            Assert.IsTrue(result);
+            result.Should().BeTrue();
 
         }
 
@@ -83,7 +85,7 @@ namespace DatesAndStuff.Tests
 
                 // Assert
                 var expectedDateTime = baseDate + ts;
-                Assert.AreEqual(expectedDateTime, result.ToAbsoluteDateTime());
+                expectedDateTime.Should().Be(result.ToAbsoluteDateTime());
             }
 
             [Test]
@@ -122,7 +124,7 @@ namespace DatesAndStuff.Tests
                 TimeSpan dateTimeDifference = baseDate - this.baseDate;
 
                 // Assert
-                Assert.That(dateTimeDifference, Is.EqualTo(simulationTimeDifference));
+                dateTimeDifference.Should().Be(simulationTimeDifference);
             }
         }
 
@@ -167,10 +169,10 @@ namespace DatesAndStuff.Tests
                 SimulationTime simulationTime = new SimulationTime(dateTime);
 
                 // Act
-                bool result = this.sut.AddMilliseconds(1) == simulationTime;
+                this.sut = this.sut.AddMilliseconds(1);
 
                 // Assert
-                Assert.IsTrue(result);
+                this.sut.Should().Be(simulationTime);
 
             }
 
@@ -183,10 +185,10 @@ namespace DatesAndStuff.Tests
                 SimulationTime simulationTime = new SimulationTime(dateTime);
 
                 // Act
-                bool result = this.sut.AddSeconds(1) == simulationTime;
+                this.sut = this.sut.AddSeconds(1);
 
                 // Assert
-                Assert.IsTrue(result);
+                this.sut.Should().Be(simulationTime);
             }
 
             [Test]
@@ -200,10 +202,9 @@ namespace DatesAndStuff.Tests
                 // Act
                 this.sut.AddTimeSpan(timeSpan);
                 simulationTime.AddTimeSpan(timeSpan);
-                bool result = this.sut == simulationTime;
 
                 // Assert
-                Assert.That(result, Is.True);
+                this.sut.Should().Be(simulationTime);
             }
         }
 

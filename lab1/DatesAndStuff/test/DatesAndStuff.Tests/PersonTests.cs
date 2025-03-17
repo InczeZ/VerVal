@@ -49,7 +49,7 @@ public class PersonTests
             try { task.Wait(); } catch { }
 
             // Assert
-            Assert.IsTrue(task.IsFaulted);
+            task.IsFaulted.Should().BeTrue();
         }
     }
 
@@ -73,7 +73,7 @@ public class PersonTests
             this.sut.IncreaseSalary(10);
 
             // Assert
-            Assert.That(salary, Is.LessThan(this.sut.Salary));
+            salary.Should().BeLessThan(sut.Salary);
 
         }
 
@@ -87,7 +87,7 @@ public class PersonTests
             this.sut.IncreaseSalary(0);
 
             // Assert
-            Assert.IsTrue(salary == this.sut.Salary);
+            salary.Should().Be(sut.Salary);
         }
 
         [Test]
@@ -100,7 +100,7 @@ public class PersonTests
             this.sut.IncreaseSalary(-1);
 
             // Assert
-            Assert.That(salary, Is.GreaterThan(this.sut.Salary));
+            salary.Should().BeGreaterThan(sut.Salary);
         }
 
         [Test]
@@ -114,7 +114,7 @@ public class PersonTests
             try { task.Wait(); } catch { }
 
             // Assert
-            Assert.IsTrue(task.IsFaulted);
+            task.IsFaulted.Should().BeTrue();
         }
     }
 }
