@@ -12,6 +12,8 @@ namespace DatesAndStuff.Tests
         uint specifyCallCount = 0;
         uint confirmCallCount = 0;
 
+        double IPaymentService.Balance => throw new NotImplementedException();
+
         public void StartPayment()
         {
             if (startCallCount != 0 || specifyCallCount > 0 || confirmCallCount > 0)
@@ -39,6 +41,11 @@ namespace DatesAndStuff.Tests
         public bool SuccessFul()
         {
             return startCallCount == 1 && specifyCallCount == 1 && confirmCallCount == 1;
+        }
+
+        void IPaymentService.CancelPayment()
+        {
+            throw new NotImplementedException();
         }
     }
 }

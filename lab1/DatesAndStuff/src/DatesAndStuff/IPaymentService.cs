@@ -8,12 +8,12 @@ namespace DatesAndStuff
 {
     public interface IPaymentService
     {
-        public void StartPayment();
+        void StartPayment();
+        void SpecifyAmount(double amount);
+        void ConfirmPayment();
+        void CancelPayment();
+        bool SuccessFul();
 
-        public void SpecifyAmount(double amount);
-
-        public void ConfirmPayment();
-
-        public bool SuccessFul();
+        double Balance { get; }
     }
 }

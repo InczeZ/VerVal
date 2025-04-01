@@ -86,12 +86,23 @@ namespace DatesAndStuff
                );
         }
 
-        public bool PerformSubsriptionPayment()
+        public bool PerformSubscriptionPayment()
         {
             PreferredPayment.StartPayment();
+            double balance = PreferredPayment.Balance;
+
+            if (balance < SubscriptionFee)
+            {
+                PreferredPayment.CancelPayment();
+                Console.WriteLine("Insufficient balance. Payment cancelled.");
+                return false;
+            }
+
             PreferredPayment.SpecifyAmount(SubscriptionFee);
             PreferredPayment.ConfirmPayment();
-            return true;
+
+            return PreferredPayment.SuccessFul();
         }
+
     }
 }

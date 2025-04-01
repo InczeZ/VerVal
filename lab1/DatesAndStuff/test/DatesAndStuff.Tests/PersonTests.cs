@@ -13,7 +13,7 @@ public class PersonTests
         [SetUp]
         public void Setup()
         {
-            this.sut = new Person("Test Pista", 54);
+            this.sut = PersonFactory.CreateTestPerson();
         }
 
         [Test]
@@ -69,11 +69,10 @@ public class PersonTests
         [SetUp]
         public void Setup()
         {
-            this.sut = new Person("Test Pista", 54);
+            this.sut = PersonFactory.CreateTestPerson();
         }
-        [Test]
-        [CustomPersonCreationAutodataAttribute]
 
+        [Test]
         [TestCase(0.01)]
         [TestCase(5)]
         [TestCase(10)]
@@ -82,7 +81,6 @@ public class PersonTests
         public void IncreaseSalary_ValidPercentage_ShouldModifySalary(double salaryIncreasePercentage)
         {
             // Arrange
-            var sut = new Person("Test Pista", 50000); ;
             double initialSalary = sut.Salary;
 
             // Act
@@ -102,15 +100,13 @@ public class PersonTests
         public void IncreaseSalary_InvalidPercentage_ShouldNotModifySalary(double salaryIncreasePercentage)
         {
             // Arrange
-            var sut = new Person("Test Pista", 50000);
-
-            // Act
             double originalSalary = sut.Salary;
 
-            // Assert
-            Assert.Throws<ArgumentException>(() => sut.IncreaseSalary(salaryIncreasePercentage));
+            // Act & Assert
+            Assert.Throws<ArgumentOutOfRangeException>(() => sut.IncreaseSalary(salaryIncreasePercentage));
             sut.Salary.Should().Be(originalSalary, "Invalid salary increases should not modify the salary.");
         }
+
 
         [Test]
         public void Constructor_DefaultParams_ShouldBeAbleToEatChocolate()
