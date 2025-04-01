@@ -61,6 +61,7 @@ public class PersonTests
         }
     }
 
+    [TestFixture]
     public class SalaryTests
     {
         Person sut;
@@ -72,16 +73,43 @@ public class PersonTests
         }
         [Test]
         [CustomPersonCreationAutodataAttribute]
-        public void IncreaseSalary_ReasonableValue_ShouldModifySalary(Person sut, double salaryIncreasePercentage)
+
+        [TestCase(0.01)]
+        [TestCase(5)]
+        [TestCase(10)]
+        [TestCase(15)]
+        [TestCase(20)]
+        public void IncreaseSalary_ValidPercentage_ShouldModifySalary(double salaryIncreasePercentage)
         {
             // Arrange
+            var sut = new Person("Test Pista", 50000); ;
             double initialSalary = sut.Salary;
 
             // Act
             sut.IncreaseSalary(salaryIncreasePercentage);
 
             // Assert
-            sut.Salary.Should().BeApproximately(initialSalary * (100 + salaryIncreasePercentage) / 100, Math.Pow(10, -8), because: "numerical salary calculation might be rounded to conform legal stuff");
+            sut.Salary.Should().BeApproximately(initialSalary * (100 + salaryIncreasePercentage) / 100,
+                Math.Pow(10, -8),
+                because: "numerical salary calculation might be rounded to conform legal stuff");
+        }
+
+        [TestCase(0)]
+        [TestCase(-5)]
+        [TestCase(-10)]
+        [TestCase(100)]
+        [TestCase(200)]
+        public void IncreaseSalary_InvalidPercentage_ShouldNotModifySalary(double salaryIncreasePercentage)
+        {
+            // Arrange
+            var sut = new Person("Test Pista", 50000);
+
+            // Act
+            double originalSalary = sut.Salary;
+
+            // Assert
+            Assert.Throws<ArgumentException>(() => sut.IncreaseSalary(salaryIncreasePercentage));
+            sut.Salary.Should().Be(originalSalary, "Invalid salary increases should not modify the salary.");
         }
 
         [Test]
@@ -120,32 +148,6 @@ public class PersonTests
             // Assert
             salary.Should().BeLessThan(sut.Salary);
 
-        }
-
-        [Test]
-        public void Salary_ZeroPercentIncrease_ShouldNotChange()
-        {
-            // Arrange
-            double salary = sut.Salary;
-
-            // Act
-            this.sut.IncreaseSalary(0);
-
-            // Assert
-            salary.Should().Be(sut.Salary);
-        }
-
-        [Test]
-        public void Salary_NegativeIncrease_ShouldDecrease()
-        {
-            // Arrange
-            double salary = sut.Salary;
-
-            // Act
-            this.sut.IncreaseSalary(-1);
-
-            // Assert
-            salary.Should().BeGreaterThan(sut.Salary);
         }
 
         [Test]
