@@ -35,6 +35,13 @@ namespace DatesAndStuff
 
         public const double SubscriptionFee = 500;
 
+        public Person(string name, double salary)
+        :this(name, new EmploymentInformation(salary, null), null, null, new FoodPreferenceParams())
+        {
+
+
+        }
+
         public Person(string name, EmploymentInformation employment, IPaymentService paymentService, LocalTaxData taxData, FoodPreferenceParams foodPreferenceParams)
         {
             this.Name = name;
