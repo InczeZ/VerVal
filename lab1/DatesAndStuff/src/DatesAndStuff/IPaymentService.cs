@@ -14,6 +14,7 @@ namespace DatesAndStuff
         void CancelPayment();
         bool SuccessFul();
 
-        double Balance { get; }
+        double Balance { get; set; }
+
     }
 }
