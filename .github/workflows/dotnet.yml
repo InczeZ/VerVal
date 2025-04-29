@@ -14,13 +14,15 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - run: cd lab1
             - uses: actions/checkout@v4
+
             - name: Setup .NET
               uses: actions/setup-dotnet@v4
               with:
                   dotnet-version: 8.0.x
+
             - name: Restore dependencies
-              run: dotnet restore
+              run: dotnet restore ./lab1/lab1.csproj
+
             - name: Build
-              run: dotnet build --no-restore
+              run: dotnet build ./lab1/lab1.csproj --no-restore
