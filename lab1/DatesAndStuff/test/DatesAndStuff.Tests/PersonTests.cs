@@ -1,5 +1,4 @@
 using AutoFixture;
-using AutoFixture.NUnit3;
 using FluentAssertions;
 
 namespace DatesAndStuff.Tests;

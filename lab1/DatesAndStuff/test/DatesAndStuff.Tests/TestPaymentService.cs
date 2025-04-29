@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DatesAndStuff.Tests
+﻿namespace DatesAndStuff.Tests
 {
     internal class TestPaymentService : IPaymentService
     {
@@ -33,7 +31,7 @@ namespace DatesAndStuff.Tests
             if (startCallCount != 1 || specifyCallCount > 0 || confirmCallCount > 0)
                 throw new Exception("Invalid payment sequence.");
 
-            if (amount > Balance) 
+            if (amount > Balance)
                 throw new InvalidOperationException("Insufficient funds.");
 
             specifyCallCount++;
