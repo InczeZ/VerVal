@@ -32,3 +32,25 @@ jobs:
 
             - name: Build
               run: dotnet build ./lab1/DatesAndStuff/test/DatesAndStuff.Tests/DatesAndStuff.Tests.csproj --no-restore
+
+            - name: Run tests with coverage
+              run: |
+                  dotnet test --no-build --verbosity normal --logger trx --collect:"XPlat Code Coverage;Format=opencover" --results-directory ./lab1/TestResults
+
+            - name: Install ReportGenerator
+              run: dotnet tool install -g dotnet-reportgenerator-globaltool
+
+            - name: Generate coverage report
+              run: |
+                  export PATH="$PATH:/root/.dotnet/tools"
+                  reportgenerator \
+                    -reports:./lab1/TestResults/**/coverage.opencover.xml \
+                    -targetdir:./lab1/TestResults/CoverageReport \
+                    -reporttypes:Html
+
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v4
+              with:
+                  name: CoverageReport
+                  path: ./lab1/TestResults/CoverageReport
+              retention-days: 7

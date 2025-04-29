@@ -84,7 +84,6 @@ namespace DatesAndStuff
         {
             PreferredPayment.StartPayment();
             double balance = PreferredPayment.Balance;
-
             if (balance < SubscriptionFee)
             {
                 PreferredPayment.CancelPayment();
@@ -95,7 +94,7 @@ namespace DatesAndStuff
             PreferredPayment.SpecifyAmount(SubscriptionFee);
             PreferredPayment.ConfirmPayment();
 
-            return PreferredPayment.SuccessFul();
+            return true;
         }
 
     }

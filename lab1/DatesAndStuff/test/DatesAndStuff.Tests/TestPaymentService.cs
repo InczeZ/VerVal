@@ -4,19 +4,18 @@
     {
         private uint startCallCount = 0;
         private uint specifyCallCount = 0;
+        public double Balance { get; set; }
         private uint confirmCallCount = 0;
-        private double v;
 
-        public TestPaymentService(double v)
+        public TestPaymentService(double balance)
         {
-            this.v = v;
+            this.Balance = balance;
         }
 
         public TestPaymentService()
         {
         }
 
-        public double Balance { get; set; }
 
         public void StartPayment()
         {

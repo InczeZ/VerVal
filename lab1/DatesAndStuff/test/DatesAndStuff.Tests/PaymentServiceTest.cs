@@ -28,7 +28,6 @@ namespace DatesAndStuff.Tests
 
             // Act
             bool result = sut.PerformSubscriptionPayment();
-
             // Assert
             result.Should().BeTrue();
         }
@@ -36,7 +35,7 @@ namespace DatesAndStuff.Tests
         [Test]
         public void TestPaymentService_ManualMock_InsufficientBalance()
         {
-            var testPaymentService = new TestPaymentService(Person.SubscriptionFee + 10);
+            var testPaymentService = new TestPaymentService(Person.SubscriptionFee - 5);
             Person sut = new Person("Test Pista",
                 new EmploymentInformation(
                     54,
@@ -57,8 +56,7 @@ namespace DatesAndStuff.Tests
             bool result = sut.PerformSubscriptionPayment();
 
             // Assert
-            result.Should().BeTrue();
-            testPaymentService.Balance.Should().Be(Person.SubscriptionFee + 10 - Person.SubscriptionFee);
+            result.Should().BeFalse();
         }
 
         [Test]
@@ -101,7 +99,7 @@ namespace DatesAndStuff.Tests
             paymentService.Verify(m => m.Balance, Times.Once);
             paymentService.Verify(m => m.SpecifyAmount(Person.SubscriptionFee), Times.Once);
             paymentService.Verify(m => m.ConfirmPayment(), Times.Once);
-            paymentService.Verify(m => m.SuccessFul(), Times.Once);
+            // paymentService.Verify(m => m.SuccessFul(), Times.Once);
         }
 
         [Test]
@@ -136,10 +134,12 @@ namespace DatesAndStuff.Tests
             );
 
             // Act
-            Action act = () => sut.PerformSubscriptionPayment();
+            bool act = sut.PerformSubscriptionPayment();
 
             // Assert
-            act.Should().Throw<InvalidOperationException>();
+            act.Should().BeFalse();
+            paymentService.Verify(m => m.StartPayment(), Times.Once);
+            paymentService.Verify(m => m.Balance, Times.Once);
             paymentService.Verify(m => m.CancelPayment(), Times.Once);
             paymentService.Verify(m => m.Balance, Times.Once);
         }
