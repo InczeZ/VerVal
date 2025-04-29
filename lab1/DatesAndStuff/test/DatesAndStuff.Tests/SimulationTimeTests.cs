@@ -206,6 +206,23 @@ namespace DatesAndStuff.Tests
                 // Assert
                 this.sut.Should().Be(simulationTime);
             }
+
+            public void SimulationTimeAndDateTime_DifferentTimespan_ComparisonFails()
+            {
+                // Arrange
+                DateTime dateTime1 = this.baseDate.AddMilliseconds(1);
+                DateTime dateTime2 = this.baseDate.AddMilliseconds(2);
+                SimulationTime simulationTime1 = new SimulationTime(dateTime1);
+                SimulationTime simulationTime2 = new SimulationTime(dateTime2);
+
+
+
+                // Act
+                bool result = simulationTime1 != simulationTime2;
+
+                // Assert
+                result.Should().BeTrue();
+            }
         }
 
         public class StringRepresentationTests
