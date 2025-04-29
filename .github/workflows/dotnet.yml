@@ -22,7 +22,13 @@ jobs:
                   dotnet-version: 8.0.x
 
             - name: Restore dependencies
-              run: dotnet restore ./lab1/lab1.csproj
+              run: dotnet restore ./lab1/DatesAndStuff/DatesAndStuff.csproj
 
             - name: Build
-              run: dotnet build ./lab1/lab1.csproj --no-restore
+              run: dotnet build ./lab1/DatesAndStuff/DatesAndStuff.csproj --no-restore
+
+            - name: Restore dependencies
+              run: dotnet restore ./lab1/DatesAndStuff.Test/DatesAndStuff.Test.csproj
+
+            - name: Build
+              run: dotnet build ./lab1/DatesAndStuff.Test/DatesAndStuff.Test.csproj --no-restore
