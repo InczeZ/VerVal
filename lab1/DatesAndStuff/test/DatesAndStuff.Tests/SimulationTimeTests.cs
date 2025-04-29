@@ -207,6 +207,7 @@ namespace DatesAndStuff.Tests
                 this.sut.Should().Be(simulationTime);
             }
 
+            [Test]
             public void SimulationTimeAndDateTime_DifferentTimespan_ComparisonFails()
             {
                 // Arrange
