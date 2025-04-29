@@ -35,7 +35,12 @@ jobs:
 
             - name: Run tests with coverage
               run: |
-                  dotnet test --no-build --verbosity normal --logger trx --collect:"XPlat Code Coverage;Format=opencover" --results-directory ./lab1/TestResults
+                  dotnet test ./lab1/DatesAndStuff/test/DatesAndStuff.Tests/DatesAndStuff.Tests.csproj \
+                    --no-build \
+                    --verbosity normal \
+                    --logger trx \
+                    --collect:"XPlat Code Coverage;Format=opencover" \
+                    --results-directory ./lab1/TestResults
 
             - name: Install ReportGenerator
               run: dotnet tool install -g dotnet-reportgenerator-globaltool
