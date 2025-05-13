@@ -1,24 +1,21 @@
-﻿using System;
-
-namespace DatesAndStuff.Tests
+﻿namespace DatesAndStuff.Tests
 {
     internal class TestPaymentService : IPaymentService
     {
         private uint startCallCount = 0;
         private uint specifyCallCount = 0;
+        public double Balance { get; set; }
         private uint confirmCallCount = 0;
-        private double v;
 
-        public TestPaymentService(double v)
+        public TestPaymentService(double balance)
         {
-            this.v = v;
+            this.Balance = balance;
         }
 
         public TestPaymentService()
         {
         }
 
-        public double Balance { get; set; }
 
         public void StartPayment()
         {
@@ -33,7 +30,7 @@ namespace DatesAndStuff.Tests
             if (startCallCount != 1 || specifyCallCount > 0 || confirmCallCount > 0)
                 throw new Exception("Invalid payment sequence.");
 
-            if (amount > Balance) 
+            if (amount > Balance)
                 throw new InvalidOperationException("Insufficient funds.");
 
             specifyCallCount++;

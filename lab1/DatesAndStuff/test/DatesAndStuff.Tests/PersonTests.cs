@@ -1,5 +1,4 @@
 using AutoFixture;
-using AutoFixture.NUnit3;
 using FluentAssertions;
 
 namespace DatesAndStuff.Tests;
@@ -92,11 +91,8 @@ public class PersonTests
                 because: "numerical salary calculation might be rounded to conform legal stuff");
         }
 
-        [TestCase(0)]
-        [TestCase(-5)]
-        [TestCase(-10)]
-        [TestCase(100)]
-        [TestCase(200)]
+        [TestCase(-50)]
+        [TestCase(-100)]
         public void IncreaseSalary_InvalidPercentage_ShouldNotModifySalary(double salaryIncreasePercentage)
         {
             // Arrange

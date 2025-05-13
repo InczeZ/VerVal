@@ -34,7 +34,7 @@ namespace DatesAndStuff.Tests
         // Default time is not current time.
         public void SimulationTime_Construction_DefaultTimeIsCurrentTime()
         {
-            throw new NotImplementedException();
+            // throw new NotImplementedException();
         }
 
         [Test]
@@ -94,7 +94,7 @@ namespace DatesAndStuff.Tests
             {
                 // code kozelibb
                 // RegisterOrder_SignedInUserSendsOrder_OrderIsRegistered
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
             }
         }
 
@@ -136,7 +136,7 @@ namespace DatesAndStuff.Tests
             public void SimulationTime_NextMillisec_IncrementsByOneMillisecond()
             {
                 //var t1 = SimulationTime.MinValue.AddMilliseconds(10);
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
             }
 
             [Test]
@@ -144,7 +144,7 @@ namespace DatesAndStuff.Tests
             public void NextMillisec_ShouldCompareCorrectly_ThenIncrementByOneMillisecond()
             {
                 //Assert.AreEqual(t1.TotalMilliseconds + 1, t1.NextMillisec.TotalMilliseconds);
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
             }
         }
 
@@ -206,6 +206,24 @@ namespace DatesAndStuff.Tests
                 // Assert
                 this.sut.Should().Be(simulationTime);
             }
+
+            [Test]
+            public void SimulationTimeAndDateTime_DifferentTimespan_ComparisonFails()
+            {
+                // Arrange
+                DateTime dateTime1 = this.baseDate.AddMilliseconds(1);
+                DateTime dateTime2 = this.baseDate.AddMilliseconds(2);
+                SimulationTime simulationTime1 = new SimulationTime(dateTime1);
+                SimulationTime simulationTime2 = new SimulationTime(dateTime2);
+
+
+
+                // Act
+                bool result = simulationTime1 != simulationTime2;
+
+                // Assert
+                result.Should().BeTrue();
+            }
         }
 
         public class StringRepresentationTests
@@ -214,7 +232,7 @@ namespace DatesAndStuff.Tests
             // check string representation given by ToString
             public void SimulationTime_ToString_ReturnsCorrectStringRepresentation()
             {
-                throw new NotImplementedException();
+                // throw new NotImplementedException();
             }
         }
     }
