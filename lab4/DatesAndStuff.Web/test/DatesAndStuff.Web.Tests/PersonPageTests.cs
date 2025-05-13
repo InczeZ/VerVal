@@ -147,14 +147,13 @@ namespace DatesAndStuff.Web.Tests
             var salaryAfterSubmission = double.Parse(salaryLabel.Text, CultureInfo.InvariantCulture);
             var expected = salary * (1 + percentage / 100);
 
-            Console.WriteLine($"Salary after {percentage}% increase: {salaryAfterSubmission} (expected: {expected})");
             salaryAfterSubmission.Should().BeApproximately(expected, 0.001);
         }
 
         [Test]
         [TestCase(-11)]
         [TestCase(-20)]
-        [TestCase(-10)]
+        [TestCase(-10.1)]
         public void Person_SalaryIncrease_ShouldShowErrors_WhenPercentageTooLow(double percentage)
         {
             // Arrange
@@ -163,7 +162,7 @@ namespace DatesAndStuff.Web.Tests
             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             wait.Until(d => d.FindElement(By.XPath("//*[@data-test='PersonPageNavigation']"))).Click();
 
-            // Helper function to handle stale elements
+
             IWebElement FindStableElement(By locator)
             {
                 return wait.Until(d =>
@@ -180,16 +179,14 @@ namespace DatesAndStuff.Web.Tests
                 });
             }
 
-            // Enter invalid percentage
             var input = FindStableElement(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']"));
             input.Clear();
             input.SendKeys(percentage.ToString(CultureInfo.InvariantCulture));
 
-            // Act - submit the form
+            // Act
             var submitButton = FindStableElement(By.XPath("//*[@data-test='SalaryIncreaseSubmitButton']"));
             submitButton.Click();
 
-            // Wait for errors to appear
             var topError = wait.Until(d =>
             {
                 var element = d.FindElement(By.XPath("//*[@data-test='ValidationSummary']"));
@@ -202,15 +199,9 @@ namespace DatesAndStuff.Web.Tests
                 return !string.IsNullOrWhiteSpace(element.Text) ? element : null;
             });
 
-            // Assert - verify both error messages exist and contain text
+            // Assert
             topError.Text.Should().NotBeNullOrWhiteSpace("Top validation summary should appear");
             fieldError.Text.Should().NotBeNullOrWhiteSpace("Field-specific error should appear");
-
-            // Additional assertions if you know the expected error messages
-            // fieldError.Text.Should().Contain("must be greater than or equal to -10");
-
-            Console.WriteLine($"Top error message: {topError.Text}");
-            Console.WriteLine($"Field error message: {fieldError.Text}");
         }
 
         private bool IsElementPresent(By by)
