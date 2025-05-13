@@ -2,13 +2,14 @@
 {
     public interface IPaymentService
     {
-        void StartPayment();
-        void SpecifyAmount(double amount);
-        void ConfirmPayment();
-        void CancelPayment();
-        bool SuccessFul();
+        public void StartPayment();
 
-        double Balance { get; set; }
+        public double Balance { get; }
 
+        public void SpecifyAmount(double amount);
+
+        public void ConfirmPayment();
+
+        public bool SuccessFul();
     }
 }

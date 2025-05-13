@@ -2,45 +2,35 @@
 {
     internal class TestPaymentService : IPaymentService
     {
-        private uint startCallCount = 0;
-        private uint specifyCallCount = 0;
-        public double Balance { get; set; }
-        private uint confirmCallCount = 0;
-
-        public TestPaymentService(double balance)
-        {
-            this.Balance = balance;
-        }
-
-        public TestPaymentService()
-        {
-        }
-
+        uint startCallCount = 0;
+        uint specifyCallCount = 0;
+        uint confirmCallCount = 0;
 
         public void StartPayment()
         {
             if (startCallCount != 0 || specifyCallCount > 0 || confirmCallCount > 0)
-                throw new Exception("Invalid payment sequence.");
+                throw new Exception();
 
             startCallCount++;
+        }
+
+        public double Balance
+        {
+            get { return 750; }
         }
 
         public void SpecifyAmount(double amount)
         {
             if (startCallCount != 1 || specifyCallCount > 0 || confirmCallCount > 0)
-                throw new Exception("Invalid payment sequence.");
-
-            if (amount > Balance)
-                throw new InvalidOperationException("Insufficient funds.");
+                throw new Exception();
 
             specifyCallCount++;
-            Balance -= amount;
         }
 
         public void ConfirmPayment()
         {
             if (startCallCount != 1 || specifyCallCount != 1 || confirmCallCount > 0)
-                throw new Exception("Invalid payment sequence.");
+                throw new Exception();
 
             confirmCallCount++;
         }
@@ -48,14 +38,6 @@
         public bool SuccessFul()
         {
             return startCallCount == 1 && specifyCallCount == 1 && confirmCallCount == 1;
-        }
-
-
-        public void CancelPayment()
-        {
-            startCallCount = 0;
-            specifyCallCount = 0;
-            confirmCallCount = 0;
         }
     }
 }
