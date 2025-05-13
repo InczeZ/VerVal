@@ -104,6 +104,7 @@ namespace DatesAndStuff.Web.Tests
         [TestCase(5000, 20)]
         [TestCase(5000, 0)]
         [TestCase(5000, 100)]
+        [TestCase(5000, -10)]
         public void Person_SalaryIncrease_ShouldIncrease(double salary, double percentage)
         {
             // Arrange
@@ -153,6 +154,7 @@ namespace DatesAndStuff.Web.Tests
         [Test]
         [TestCase(-11)]
         [TestCase(-20)]
+        [TestCase(-10)]
         public void Person_SalaryIncrease_ShouldShowErrors_WhenPercentageTooLow(double percentage)
         {
             // Arrange
