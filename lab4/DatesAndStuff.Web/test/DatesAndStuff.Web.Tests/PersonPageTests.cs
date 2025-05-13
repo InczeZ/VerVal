@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 using FluentAssertions;
@@ -127,6 +128,35 @@ namespace DatesAndStuff.Web.Tests
             var expected = salary * (1 + percentage / 100);
             salaryAfterSubmission.Should().BeApproximately(expected, 0.001);
         }
+        [Test]
+        [TestCase(-11)]
+        public void Person_SalaryIncrease_ShouldShowErrors_WhenPercentageTooLow(double percentage)
+        {
+            // Arrange
+            driver.Navigate().GoToUrl(BaseURL);
+            driver.FindElement(By.XPath("//*[@data-test='PersonPageNavigation']")).Click();
+
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+
+            wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']")));
+            var input = driver.FindElement(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']"));
+            input.Clear();
+            input.SendKeys(percentage.ToString());
+
+            var submitButton = wait.Until(ExpectedConditions.ElementToBeClickable(By.XPath("//*[@data-test='SalaryIncreaseSubmitButton']")));
+            submitButton.Click();
+
+            wait.Until(driver => driver.FindElements(By.XPath("//*[@data-test='ValidationSummary']")).Any());
+            wait.Until(driver => driver.FindElements(By.XPath("//*[@data-test='SalaryIncreasePercentageError']")).Any());
+
+            var topError = driver.FindElement(By.XPath("//*[@data-test='ValidationSummary']"));
+            var fieldError = driver.FindElement(By.XPath("//*[@data-test='SalaryIncreasePercentageError']"));
+
+            topError.Text.Should().NotBeNullOrWhiteSpace("top error should appear");
+            fieldError.Text.Should().NotBeNullOrWhiteSpace("field error should appear");
+        }
+
+
         private bool IsElementPresent(By by)
         {
             try
