@@ -204,6 +204,7 @@ namespace DatesAndStuff.Web.Tests
             fieldError.Text.Should().NotBeNullOrWhiteSpace("Field-specific error should appear");
         }
 
+
         private bool IsElementPresent(By by)
         {
             try
@@ -251,5 +252,6 @@ namespace DatesAndStuff.Web.Tests
                 acceptNextAlert = true;
             }
         }
+
     }
 }
