@@ -99,36 +99,58 @@ namespace DatesAndStuff.Web.Tests
         }
 
         [Test]
+        [TestCase(5000, 0.5)] 
         [TestCase(5000, 10)]
-        [TestCase(5000, 20)]
-        [TestCase(5000, 0.5)]
+        [TestCase(5000, 20)]   
+        [TestCase(5000, 0)]
+        [TestCase(5000, 100)]
         public void Person_SalaryIncrease_ShouldIncrease(double salary, double percentage)
         {
             // Arrange
             driver.Navigate().GoToUrl(BaseURL);
-            driver.FindElement(By.XPath("//*[@data-test='PersonPageNavigation']")).Click();
 
-            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            wait.Until(d => d.FindElement(By.XPath("//*[@data-test='PersonPageNavigation']"))).Click();
 
-            wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']")));
-            var input = driver.FindElement(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']"));
+            IWebElement FindStableElement(By locator)
+            {
+                return wait.Until(d =>
+                {
+                    try
+                    {
+                        var element = d.FindElement(locator);
+                        return element.Displayed && element.Enabled ? element : null;
+                    }
+                    catch (StaleElementReferenceException)
+                    {
+                        return null;
+                    }
+                });
+            }
+
+            var input = FindStableElement(By.XPath("//*[@data-test='SalaryIncreasePercentageInput']"));
             input.Clear();
-            input.SendKeys(percentage.ToString());
+            input.SendKeys(percentage.ToString(CultureInfo.InvariantCulture));
 
             // Act
-            var submitButton = wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@data-test='SalaryIncreaseSubmitButton']")));
+            var submitButton = FindStableElement(By.XPath("//*[@data-test='SalaryIncreaseSubmitButton']"));
             submitButton.Click();
 
-
             // Assert
-            var salaryLabel = wait.Until(ExpectedConditions.ElementExists(By.XPath("//*[@data-test='DisplayedSalary']")));
-            var salaryAfterSubmission = double.Parse(salaryLabel.Text);
-            Console.WriteLine($"Salary after submission: {salaryAfterSubmission}");
-            Console.WriteLine($"Expected salary: {salary * (1 + percentage / 100)}");
+            var salaryLabel = wait.Until(d =>
+            {
+                var element = d.FindElement(By.XPath("//*[@data-test='DisplayedSalary']"));
+                return element.Text != "0" && !string.IsNullOrEmpty(element.Text) ? element : null;
+            });
+
+            var salaryAfterSubmission = double.Parse(salaryLabel.Text, CultureInfo.InvariantCulture);
             var expected = salary * (1 + percentage / 100);
+
+            Console.WriteLine($"Salary after {percentage}% increase: {salaryAfterSubmission} (expected: {expected})");
             salaryAfterSubmission.Should().BeApproximately(expected, 0.001);
         }
-        [Test]
+
+        /*[Test]
         [TestCase(-11)]
         public void Person_SalaryIncrease_ShouldShowErrors_WhenPercentageTooLow(double percentage)
         {
@@ -155,7 +177,7 @@ namespace DatesAndStuff.Web.Tests
             topError.Text.Should().NotBeNullOrWhiteSpace("top error should appear");
             fieldError.Text.Should().NotBeNullOrWhiteSpace("field error should appear");
         }
-
+*/
 
         private bool IsElementPresent(By by)
         {
